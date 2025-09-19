@@ -1,5 +1,4 @@
 {% extends "core/base.html" %}
-{% load form_tags %}
 
 {% block title %}Log In - StudyHub{% endblock %}
 
@@ -24,7 +23,7 @@
                         
                         <div class="mb-3">
                             <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
-                            {{ form.username|addclass:"form-control" }}
+                            <input type="text" name="username" class="form-control" id="{{ form.username.id_for_label }}" required>
                             {% if form.username.errors %}
                                 <div class="text-danger">{{ form.username.errors }}</div>
                             {% endif %}
@@ -32,7 +31,7 @@
                         
                         <div class="mb-3">
                             <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
-                            {{ form.password|addclass:"form-control" }}
+                            <input type="password" name="password" class="form-control" id="{{ form.password.id_for_label }}" required>
                             {% if form.password.errors %}
                                 <div class="text-danger">{{ form.password.errors }}</div>
                             {% endif %}
