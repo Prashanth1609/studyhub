@@ -1,9 +1,10 @@
 Django==5.2.5
 djangorestframework==3.16.1
 django-filter==25.1
-gunicorn
-whitenoise
-dj-database-url
-psycopg2-binary
-python-dateutil
-sqlparse
+asgiref==3.9.1
+sqlparse==0.5.3
+gunicorn==21.2.0
+whitenoise==6.6.0
+dj-database-url==2.1.0
+psycopg2-binary==2.9.9
+python-dateutil==2.8.2
