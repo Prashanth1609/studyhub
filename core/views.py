@@ -7,7 +7,8 @@ from django.contrib import messages
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import login, update_session_auth_hash, logout
+from django.contrib.auth import login, update_session_auth_hash, logout, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import send_mail
 from django.conf import settings
 import json
@@ -17,6 +18,31 @@ from django.http import HttpResponse
 from .models import StudySession, SubjectTag, SessionMember, Message, UserProfile, WaitlistEntry
 from .serializers import StudySessionSerializer, SubjectTagSerializer, MessageSerializer
 from .forms import StudySessionForm, CustomUserCreationForm
+
+
+def custom_login(request):
+    """
+    Custom login view to handle authentication properly.
+    """
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Welcome back, {user.username}!')
+                next_url = request.GET.get('next', 'core:home')
+                return redirect(next_url)
+            else:
+                messages.error(request, 'Invalid username or password.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'registration/login.html', {'form': form})
 
 
 def signup(request):

@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('rest_framework.urls')),
     path('', include('core.urls', namespace='core')),
-    # Authentication URLs
-    path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    # Authentication URLs - redirect to custom login
+    path('accounts/login/', lambda request: redirect('core:login'), name='login'),
 ]
 

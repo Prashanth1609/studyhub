@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import home, create_group, group_details, join_session, leave_session, signup, profile, change_password, logout_view, landing, edit_session, delete_session, session_ics, join_waitlist
+from .views import home, create_group, group_details, join_session, leave_session, signup, profile, change_password, logout_view, landing, edit_session, delete_session, session_ics, join_waitlist, custom_login
 from rest_framework.routers import DefaultRouter
 from .views import StudySessionViewSet, SubjectTagViewSet
 
@@ -13,6 +13,7 @@ router.register(r'tags', SubjectTagViewSet)
 urlpatterns = [
     path('', landing, name='landing'),
     path('feed/', home, name='home'),
+    path('login/', custom_login, name='login'),
     path('signup/', signup, name='signup'),
     path('profile/', profile, name='profile'),
     path('change-password/', change_password, name='change_password'),
