@@ -1,1 +1,1 @@
-web: chmod +x start.sh && ./start.sh
+web: python manage.py migrate && gunicorn studyhub.wsgi:application --log-file -
