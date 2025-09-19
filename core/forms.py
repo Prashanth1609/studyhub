@@ -72,9 +72,14 @@ class CustomUserCreationForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
-            profile = user.profile
-            profile.education_level = self.cleaned_data['education_level']
-            profile.save()
+            # Ensure profile exists before accessing it
+            profile, created = UserProfile.objects.get_or_create(
+                user=user,
+                defaults={'education_level': self.cleaned_data['education_level']}
+            )
+            if not created:
+                profile.education_level = self.cleaned_data['education_level']
+                profile.save()
         return user
 
 

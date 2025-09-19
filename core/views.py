@@ -26,10 +26,17 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Account created successfully!')
-            return redirect('core:home')
+            try:
+                user = form.save()
+                login(request, user)
+                messages.success(request, 'Account created successfully!')
+                return redirect('core:home')
+            except Exception as e:
+                messages.error(request, f'Error creating account: {str(e)}')
+                # Log the error for debugging
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f'Signup error: {str(e)}')
     else:
         form = CustomUserCreationForm()
     

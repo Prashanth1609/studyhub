@@ -9,6 +9,18 @@ echo "Starting StudyHub deployment..."
 echo "Running database migrations..."
 python manage.py migrate
 
+# Check database connection
+echo "Testing database connection..."
+python manage.py shell -c "
+from django.db import connection
+try:
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT 1')
+    print('Database connection successful')
+except Exception as e:
+    print(f'Database connection failed: {e}')
+"
+
 # Set up initial data
 echo "Setting up initial data..."
 python manage.py setup_initial_data
