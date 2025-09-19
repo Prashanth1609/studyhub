@@ -1,1 +1,1 @@
-web: gunicorn studyhub.wsgi:application --log-file -
+web: chmod +x start.sh && ./start.sh
